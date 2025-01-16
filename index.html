@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Bucket List</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        .header, .footer {
+            background-color: #ff6f61;
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .bucket-list {
+            margin: 2rem 0;
+        }
+        .bucket-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: white;
+            margin-bottom: 0.5rem;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .bucket-list-item:hover {
+            background-color: #f0f0f0;
+            transform: scale(1.02);
+        }
+        .bucket-list-item.completed {
+            text-decoration: line-through;
+            color: #aaa;
+        }
+        .bucket-list-item i {
+            margin-right: 1rem;
+            cursor: pointer;
+        }
+        .controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .controls button {
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+        .emoji {
+            font-size: 1.5rem;
+        }
+        .remove-completed {
+            margin-top: 1rem;
+        }
+        @media (max-width: 768px) {
+            .bucket-list-item {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>🎯 My Personal Bucket List</h1>
+        <p>Dream big, live bigger!</p>
+    </div>
+
+    <div class="container bucket-list">
+        <h2>Bucket List Items</h2>
+        <ul id="bucketList" class="list-unstyled">
+            <!-- List items will be added here dynamically -->
+        </ul>
+        <div class="input-group mb-3">
+            <input id="newItemInput" type="text" class="form-control" placeholder="Add a new wish...">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" onclick="addItem()">Add</button>
+            </div>
+        </div>
+        <button class="btn btn-danger remove-completed" onclick="removeCompleted()">Remove Completed Tasks</button>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2025 My Personal Bucket List | Designed with love 💖</p>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function addItem() {
+            const input = document.getElementById('newItemInput');
+            const list = document.getElementById('bucketList');
+            if (input.value.trim()) {
+                const li = document.createElement('li');
+                li.className = 'bucket-list-item';
+                li.innerHTML = `
+                    <span><input type="checkbox" onchange="toggleComplete(this)"> ${input.value.trim()} 🎉</span>
+                    <div class="controls">
+                        <button onclick="removeItem(this)"><i class="fas fa-trash-alt emoji"></i></button>
+                    </div>
+                `;
+                list.appendChild(li);
+                input.value = '';
+            }
+        }
+
+        function toggleComplete(checkbox) {
+            const item = checkbox.closest('.bucket-list-item');
+            item.classList.toggle('completed', checkbox.checked);
+        }
+
+        function removeItem(button) {
+            const item = button.closest('.bucket-list-item');
+            item.remove();
+        }
+
+        function removeCompleted() {
+            const items = document.querySelectorAll('.bucket-list-item.completed');
+            items.forEach(item => item.remove());
+        }
+    </script>
+</body>
+</html>
